@@ -54,7 +54,7 @@ wss.on('connection', function connection(ws,request) {
     userId
   })
 
-  ws.on('/message', async function message(data) {
+  ws.on('message', async function message(data) {
     const parshedData = JSON.parse(data as unknown as string);
 
     if(parshedData.type === "join_room") {
@@ -67,7 +67,7 @@ wss.on('connection', function connection(ws,request) {
       if(!user) {
         return;
       }
-      user.rooms = user.rooms.filter(x => x === parshedData.room);
+      user.rooms = user?.rooms.filter(x => x === parshedData.room);
     }
 
     if(parshedData.type === "chat") {

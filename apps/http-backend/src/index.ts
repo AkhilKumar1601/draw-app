@@ -11,7 +11,7 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-app.post("signup", async (req,res) => {
+app.post("/signup", async (req,res) => {
   const parshedData = await CreateSignupSchema.safeParse(req.body);
   if(!parshedData.success) {
     res.json({
@@ -123,6 +123,44 @@ app.post("/room", middleware, async (req : CustomRequest,res) => {
     })
 
   }
+})
+
+app.get("/chat/:roomId", async (req,res) => {
+ try {
+    const roomId = Number(req.params.roomId);
+
+    const messages = await prismaClient.chat.findMany({
+      where : {
+        roomId : roomId
+      },
+      orderBy : {
+        id : "dec"
+      },
+      take : 50
+    })
+  
+    res.json({
+      messages
+    })
+ } catch(e) {
+    res.json({
+      messages : []
+    })
+ }
+})
+
+app.get("/room/:slug", async (req,res) => {
+  const slug = req.params.slug;
+
+  const room = await prismaClient.room.findFirst({
+    where : {
+      slug
+    }
+  })
+
+  res.json({
+    room
+  })
 })
 
 app.listen(3001);
