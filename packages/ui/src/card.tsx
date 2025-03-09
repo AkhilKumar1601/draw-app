@@ -1,26 +1,24 @@
-import { type JSX } from "react";
+import { type JSX, ReactNode } from "react";
 
 export function Card({
   className,
   title,
   children,
-  href,
+  href = "#", // Default to "#"
 }: {
   className?: string;
-  title: string;
+  title?: string; // Make it optional
   children: React.ReactNode;
-  href: string;
+  href?: string; // Make it optional
 }): JSX.Element {
   return (
     <a
       className={className}
-      href={`${href}?utm_source=create-turbo&utm_medium=basic&utm_campaign=create-turbo"`}
+      href={`${href}?utm_source=create-turbo&utm_medium=basic&utm_campaign=create-turbo`}
       rel="noopener noreferrer"
       target="_blank"
     >
-      <h2>
-        {title} <span>-&gt;</span>
-      </h2>
+      {title && <h2>{title} <span>-&gt;</span></h2>}
       <p>{children}</p>
     </a>
   );
