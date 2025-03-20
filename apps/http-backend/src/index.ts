@@ -134,7 +134,7 @@ app.get("/chat/:roomId", async (req,res) => {
         roomId : roomId
       },
       orderBy : {
-        id : "dec"
+        id : "desc"
       },
       take : 50
     })
